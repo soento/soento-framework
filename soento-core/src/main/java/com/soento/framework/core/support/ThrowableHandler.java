@@ -75,7 +75,7 @@ public class ThrowableHandler {
         logger.warn(msg.toString());
         logger.warn(cause.getMessage(), cause);
         // 构造返回值
-        resp.setCode(BaseMessageCode.BUSY);
+        resp.setCode(BaseMessageCode.E9998);
         resp.setMessage(msa.getMessage(resp.getCode(), request.getLocale()));
         return resp;
     }
@@ -86,7 +86,7 @@ public class ThrowableHandler {
         // 输出错误信息
         logger.error("== 未知系统异常 ==" + cause.getMessage(), cause);
         // 构造返回值
-        resp.setCode(BaseMessageCode.SYSTEM_ERROR);
+        resp.setCode(BaseMessageCode.E9999);
         resp.setMessage(msa.getMessage(resp.getCode(), request.getLocale()));
         return resp;
     }

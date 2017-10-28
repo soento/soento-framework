@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <description>Spring公共配置</description>
+    <context:annotation-config/>
+    <!-- 激活自动代理功能 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <!-- 消息配置 -->
+    <bean id="messageSource" class="com.soento.framework.core.support.MultipleMessageSource">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="useCodeAsDefaultMessage" value="true"/>
+        <property name="basenames">
+            <array>
+                <value>classpath*:/i18n/*</value>
+            </array>
+        </property>
+    </bean>
+    <bean id="msa" class="com.soento.framework.core.support.MessageSourceAccessor">
+        <constructor-arg ref="messageSource"/>
+    </bean>
+    <!-- Spring 工具注册 -->
+    <bean class="com.soento.framework.core.util.SpringUtil"/>
+    <!-- 任务扫描注解 -->
+    <task:executor id="executor" pool-size="5"/>
+    <task:scheduler id="scheduler" pool-size="10"/>
+    <task:annotation-driven executor="executor" scheduler="scheduler" mode="proxy"/>
+</beans>

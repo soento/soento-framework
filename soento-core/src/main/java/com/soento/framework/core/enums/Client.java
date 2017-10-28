@@ -21,17 +21,21 @@ public enum Client {
      */
     H5("h5"),
     /**
-     * iOS应用
-     */
-    iOS("iOS"),
-    /**
      * 应用
      */
     APP("app"),
     /**
+     * iOS应用
+     */
+    iOS("iOS"),
+    /**
      * Android应用
      */
     Android("Android"),
+    /**
+     * 微信
+     */
+    WeChart("WeChart"),
     /**
      * 未知
      */

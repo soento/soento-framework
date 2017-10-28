@@ -16,8 +16,8 @@ public enum Audio {
         return value;
     }
 
-    public static boolean has(String extension) {
-        if (Audio.MP3.getValue().equalsIgnoreCase(extension)) {
+    public static boolean has(String value) {
+        if (Audio.MP3.getValue().equalsIgnoreCase(value)) {
             return true;
         }
         return false;

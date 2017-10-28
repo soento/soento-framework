@@ -194,6 +194,11 @@
             </dependency>
             <dependency>
                 <groupId>com.soento.framework</groupId>
+                <artifactId>soento-web-static</artifactId>
+                <version>${soento.framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soento.framework</groupId>
                 <artifactId>soento-mybatis</artifactId>
                 <version>${soento.framework.version}</version>
             </dependency>

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MessageInfo extends BaseObject {
+public class MessageInfo extends Pojo {
     private String code;
     private List<String> args;
 

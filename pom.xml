@@ -22,6 +22,7 @@
         <module>soento-web</module>
         <module>soento-mybatis</module>
         <module>soento-hibernate</module>
+        <module>soento-web-static</module>
     </modules>
 
 

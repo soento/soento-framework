@@ -2,7 +2,7 @@ package com.soento.framework.core.lang;
 
 import com.soento.framework.core.consts.BaseMessageCode;
 
-public class RestResponse<T> extends BaseObject {
+public class RestResponse<T> extends Pojo {
 
     private String code;
     private String message;

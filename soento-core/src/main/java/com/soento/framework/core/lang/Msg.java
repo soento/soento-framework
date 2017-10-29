@@ -6,8 +6,9 @@ import com.soento.framework.core.util.SpringUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
-public class MessageInfo extends Pojo {
+public class Msg extends Pojo {
     private String code;
     private List<String> args;
 
@@ -19,29 +20,37 @@ public class MessageInfo extends Pojo {
     }
 
     public String[] getArguments() {
+        return getArguments(null);
+    }
+
+    public String[] getArguments(Locale locale) {
         MessageSourceAccessor msa = SpringUtil.getBean(MessageSourceAccessor.class);
         String[] arguments = null;
         if (this.args != null && this.args.size() > 0) {
             arguments = new String[this.args.size()];
             for (int i = 0; i < this.args.size(); i++) {
-                arguments[i] = msa.getMessage(this.args.get(i));
+                arguments[i] = msa.getMessage(locale, this.args.get(i), null);
             }
         }
         return arguments;
     }
 
     public String getMessage() {
-        MessageSourceAccessor msa = SpringUtil.getBean(MessageSourceAccessor.class);
-        return msa.getMessage(this.code, getArguments());
+        return getMessage(null);
     }
 
-    public static MessageInfo build(String code, String... args) {
-        MessageInfo messageInfo = new MessageInfo();
-        messageInfo.setCode(code);
+    public String getMessage(Locale locale) {
+        MessageSourceAccessor msa = SpringUtil.getBean(MessageSourceAccessor.class);
+        return msa.getMessage(locale, this.code, getArguments());
+    }
+
+    public static Msg build(String code, String... args) {
+        Msg msg = new Msg();
+        msg.setCode(code);
         if (args != null && args.length > 0) {
-            messageInfo.setArgs(Arrays.asList(args));
+            msg.setArgs(Arrays.asList(args));
         }
-        return messageInfo;
+        return msg;
     }
 
     public String getCode() {

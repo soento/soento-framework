@@ -3,8 +3,8 @@ package com.soento.framework.core.support;
 import com.soento.framework.core.consts.BaseMessageCode;
 import com.soento.framework.core.exception.ClientException;
 import com.soento.framework.core.exception.ServiceException;
-import com.soento.framework.core.lang.MessageInfo;
-import com.soento.framework.core.lang.RestResponse;
+import com.soento.framework.core.lang.Msg;
+import com.soento.framework.core.lang.Resp;
 import com.soento.framework.core.util.SpringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +20,7 @@ public class ThrowableHandler {
 
     private Logger logger = LoggerFactory.getLogger(ThrowableHandler.class);
 
-    public RestResponse handlerBindException(HttpServletRequest request, HttpServletResponse response, BindException cause) {
-        RestResponse resp = new RestResponse();
+    public Resp handlerBindException(HttpServletRequest request, HttpServletResponse response, BindException cause) {
         MessageSourceAccessor msa = SpringUtil.getBean(MessageSourceAccessor.class);
         // 输出错误信息
         List<ObjectError> errors = cause.getAllErrors();
@@ -39,16 +38,13 @@ public class ThrowableHandler {
         logger.info(cause.getMessage(), cause);
         // 构造返回值
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        resp.setCode(String.valueOf(HttpServletResponse.SC_BAD_REQUEST));
-        resp.setMessage(msa.getMessage(resp.getCode(), request.getLocale()));
-        return resp;
+        return PojoBuilder.buildResp(Msg.build(String.valueOf(HttpServletResponse.SC_BAD_REQUEST)), request.getLocale());
     }
 
-    public RestResponse handlerClientException(HttpServletRequest request, ClientException cause) {
-        RestResponse resp = new RestResponse();
+    public Resp handlerClientException(HttpServletRequest request, ClientException cause) {
         MessageSourceAccessor msa = SpringUtil.getBean(MessageSourceAccessor.class);
         // 输出错误信息
-        MessageInfo messageInfo = cause.getMessageInfo();
+        Msg messageInfo = cause.getMsg();
         StringBuilder msg = new StringBuilder();
         msg.append("== 前端业务异常 ==");
         msg.append(messageInfo.getCode());
@@ -57,15 +53,12 @@ public class ThrowableHandler {
         logger.info(msg.toString());
         logger.info(cause.getMessage(), cause);
         // 构造返回值
-        resp.setCode(messageInfo.getCode());
-        resp.setMessage(msa.getMessage(messageInfo.getCode(), messageInfo.getArguments(), request.getLocale()));
-        return resp;
+        return PojoBuilder.buildResp(messageInfo, request.getLocale());
     }
 
-    public RestResponse handlerServiceException(HttpServletRequest request, ServiceException cause) {
-        RestResponse resp = new RestResponse();
+    public Resp handlerServiceException(HttpServletRequest request, ServiceException cause) {
         MessageSourceAccessor msa = SpringUtil.getBean(MessageSourceAccessor.class);
-        MessageInfo messageInfo = cause.getMessageInfo();
+        Msg messageInfo = cause.getMsg();
         // 输出错误信息
         StringBuilder msg = new StringBuilder();
         msg.append("== 后端业务异常 ==");
@@ -75,20 +68,15 @@ public class ThrowableHandler {
         logger.warn(msg.toString());
         logger.warn(cause.getMessage(), cause);
         // 构造返回值
-        resp.setCode(BaseMessageCode.E9998);
-        resp.setMessage(msa.getMessage(resp.getCode(), request.getLocale()));
-        return resp;
+        return PojoBuilder.buildResp(Msg.build(BaseMessageCode.E9998), request.getLocale());
     }
 
-    public RestResponse handlerOthers(HttpServletRequest request, Throwable cause) {
-        RestResponse resp = new RestResponse();
+    public Resp handlerOthers(HttpServletRequest request, Throwable cause) {
         MessageSourceAccessor msa = SpringUtil.getBean(MessageSourceAccessor.class);
         // 输出错误信息
         logger.error("== 未知系统异常 ==" + cause.getMessage(), cause);
         // 构造返回值
-        resp.setCode(BaseMessageCode.E9999);
-        resp.setMessage(msa.getMessage(resp.getCode(), request.getLocale()));
-        return resp;
+        return PojoBuilder.buildResp(Msg.build(BaseMessageCode.E9999), request.getLocale());
     }
 
 }

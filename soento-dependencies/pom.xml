@@ -194,7 +194,7 @@
             </dependency>
             <dependency>
                 <groupId>com.soento.framework</groupId>
-                <artifactId>soento-web-static</artifactId>
+                <artifactId>soento-web-admin</artifactId>
                 <version>${soento.framework.version}</version>
             </dependency>
             <dependency>

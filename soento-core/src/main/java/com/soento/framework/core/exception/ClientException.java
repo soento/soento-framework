@@ -1,18 +1,18 @@
 package com.soento.framework.core.exception;
 
-import com.soento.framework.core.lang.MessageInfo;
+import com.soento.framework.core.lang.Msg;
 
 public class ClientException extends ServiceException {
     public ClientException() {
         super();
     }
 
-    public ClientException(MessageInfo messageInfo) {
-        super(messageInfo);
+    public ClientException(Msg msg) {
+        super(msg);
     }
 
-    public ClientException(MessageInfo messageInfo, Throwable cause) {
-        super(messageInfo, cause);
+    public ClientException(Msg msg, Throwable cause) {
+        super(msg, cause);
     }
 
     public ClientException(Throwable cause) {
@@ -20,10 +20,10 @@ public class ClientException extends ServiceException {
     }
 
     public static ClientException build(String code, String... args) {
-        return new ClientException(MessageInfo.build(code, args));
+        return new ClientException(Msg.build(code, args));
     }
 
     public static ClientException build(Throwable cause, String code, String... args) {
-        return new ClientException(MessageInfo.build(code, args), cause);
+        return new ClientException(Msg.build(code, args), cause);
     }
 }
